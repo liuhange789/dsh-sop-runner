@@ -95,7 +95,7 @@ Store scoping: every tool takes an optional `store`; records and reports are fil
 
 ## Browser card
 
-Under the web composition the host registers `GET`/`POST /sop-runner/api` (loopback, same-origin only):
+Under the web composition the host registers `GET`/`POST /sop-runner/api`. It is a local, same-origin endpoint for the DSH shell — it has no authentication and only serves the SOP checklist/report of the workspace named by `dir`:
 
 - `GET /sop-runner/api?dir=<workspace>` → the same checklist payload as `sop_today`; `&report=1` → the `sop_report` payload.
 - `POST /sop-runner/api` `{dir, item_id, status, note?, photo?:{name,data}}` → validates, archives the photo under `.sop/photos/<date>/`, appends the JSONL line, and returns the refreshed checklist.
