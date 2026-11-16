@@ -192,6 +192,23 @@ async function savePhoto(workspaceDir, date, itemId, photo) {
 }
 
 /**
+ * Reject an obviously invalid bridge submission before a photo is archived,
+ * so a failed request never leaves an orphan image behind. `checkItem` still
+ * runs the full validation afterwards.
+ * @param {object} definition - loaded SOP definition.
+ * @param {object} body - bridge request body.
+ */
+function preflightBridgeCheck(definition, body) {
+  const itemId = typeof body.item_id === 'string' ? body.item_id.trim() : ''
+  if (!definition.items.some(item => item.id === itemId)) throw new Error(`未知 item_id：${itemId || '(空)'}`)
+  if (!STATUSES.includes(body.status)) throw new Error(`status 只能是 ${STATUSES.join(' / ')}`)
+  if (body.note !== undefined && body.note !== null && typeof body.note !== 'string') throw new Error('note 必须是字符串')
+  if (body.status === 'fail' && (typeof body.note !== 'string' || body.note.trim() === '')) {
+    throw new Error('标记不通过时必须填写 note（哪里没做到）')
+  }
+}
+
+/**
  * Resolve and validate the workspace a bridge request names.
  * @param {unknown} dir - query/body directory.
  * @returns {Promise<string>} absolute existing directory.
@@ -238,6 +255,7 @@ export function createBridgeHandler() {
         const date = body.date ?? localDate()
         const storeParam = typeof body.store === 'string' && body.store.trim() !== '' ? body.store.trim() : undefined
         const store = storeParam ?? defaultStore(workspaceDir, loaded.definition)
+        preflightBridgeCheck(loaded.definition, body)
         let photo
         if (body.photo !== undefined && body.photo !== null) {
           photo = await savePhoto(workspaceDir, date, String(body.item_id ?? ''), body.photo)
