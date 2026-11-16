@@ -1,0 +1,3 @@
+- insert:
+    - id: sop-runner
+      name: '@liuhange/dsh-sop-runner'
