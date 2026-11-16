@@ -41,7 +41,7 @@ Everything lives under the session workspace (the same `cwd` the file tools use)
 .sop/
   sop.json                       # the SOP definition
   records/2026-11-16.jsonl       # one append-only file per calendar day
-  photos/2026-11-16/             # archived photos, one folder per day
+  photos/2026-11-16/             # uploads from the checklist card, one folder per day
     fridge-temp-1699999999999.jpg
 ```
 
@@ -72,7 +72,7 @@ Record line (`.sop/records/<date>.jsonl`):
 {"date":"2026-11-16","store":"望京店","results":[{"item_id":"table-clean","status":"pass","note":""}],"at":"2026-11-16T09:12:31.000Z"}
 ```
 
-A failed result always carries a non-empty `note`; a passing photo item carries `photo` with the workspace-relative archived path. Records are append-only: re-checking an item appends another line, and the newest line for the same store, date and item wins when reading.
+A failed result always carries a non-empty `note`; a passing photo item carries `photo` with a workspace-relative path. Uploads from the checklist card are archived under `.sop/photos/<date>/` before the line is written; `sop_check` records the path you pass in and does not copy the file. Records are append-only: re-checking an item appends another line, and the newest line for the same store, date and item wins when reading.
 
 ## Tools
 
