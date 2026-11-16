@@ -1,0 +1,77 @@
+{
+  "name": "@liuhange/dsh-sop-runner",
+  "version": "0.1.0",
+  "description": "Store SOP self-check inside DSH: today's checklist, per-item pass/fail/photo, append-only JSONL records and a plain-text daily report. 门店 SOP 执行自检：今天该查什么、查了没有、哪里没做到。别在微信群里问「检查了吗」——让门店自己完成 SOP 自检。",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "sop",
+    "checklist",
+    "retail",
+    "store",
+    "inspection",
+    "self-check",
+    "SOP",
+    "门店",
+    "自检",
+    "巡检",
+    "交接班"
+  ],
+  "homepage": "https://github.com/liuhange789/dsh-sop-runner#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liuhange789/dsh-sop-runner.git"
+  },
+  "bugs": {
+    "url": "https://github.com/liuhange789/dsh-sop-runner/issues"
+  },
+  "license": "MIT",
+  "type": "module",
+  "main": "./lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "src/core",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "prepack": "node scripts/build.mjs",
+    "test": "node scripts/build.mjs && node --test test/core.test.js test/host.test.js"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-tools": ">=0.1.0-rc.7 <0.2.0",
+    "@deepseek-ai/schemastery": ">=3.18.0 <4",
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}
