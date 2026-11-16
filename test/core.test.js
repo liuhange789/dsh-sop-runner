@@ -207,6 +207,7 @@ test('weekly SOP rolls the Monday–Sunday window and compares with last week', 
 
   const view = await todayView(workspace)
   assert.equal(view.windowStart, window.start)
+  assert.equal(view.windowEnd, today)
   assert.equal(view.checked, 1)
   assert.equal(view.completionRate, 50)
 
