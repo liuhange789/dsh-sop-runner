@@ -411,7 +411,7 @@ export async function todayView(workspaceDir, options = {}) {
     store,
     date,
     windowStart: window.start,
-    windowEnd: window.end,
+    windowEnd: window.dates[window.dates.length - 1],
     totalItems: definition.items.length,
     total: progress.total,
     checked: progress.checked,
@@ -589,7 +589,7 @@ export async function reportFor(workspaceDir, options = {}) {
         : progress.completionRate < previousProgress.completionRate ? 'down' : 'flat',
     }
   const periodLabel = definition.frequency === 'weekly'
-    ? `${window.start} ~ ${window.end}`
+    ? `${window.start} ~ ${window.dates[window.dates.length - 1]}`
     : date
   const summary = renderSummary({
     name: definition.name,
