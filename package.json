@@ -1,6 +1,6 @@
 {
   "name": "@liuhange/dsh-sop-runner",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "description": "Store SOP self-check inside DSH: today's checklist, per-item pass/fail/photo, append-only JSONL records and a plain-text daily report. 门店 SOP 执行自检：今天该查什么、查了没有、哪里没做到。别在微信群里问「检查了吗」——让门店自己完成 SOP 自检。",
   "keywords": [
     "dsh",
@@ -67,6 +67,12 @@
     "react": ">=18"
   },
   "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-tools": {
+      "optional": true
+    },
+    "@deepseek-ai/schemastery": {
+      "optional": true
+    },
     "react": {
       "optional": true
     }
