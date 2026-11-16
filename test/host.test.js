@@ -161,6 +161,20 @@ test('bridge serves the checklist, writes a real photo and JSONL, and reports', 
     assert.equal(list.total, 2)
     assert.equal(list.completionRate, 0)
 
+    // An unknown item is rejected before the photo is archived: no orphan image.
+    const badItem = await fetch(`${bridge.base}/sop-runner/api`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        dir: workspace,
+        item_id: 'nope',
+        status: 'pass',
+        photo: { name: 'orphan.png', data: TINY_PNG.toString('base64') },
+      }),
+    })
+    assert.equal(badItem.status, 400)
+    await assert.rejects(readdir(path.join(workspace, '.sop/photos', localDate())), /ENOENT/)
+
     const withPhoto = await fetch(`${bridge.base}/sop-runner/api`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
